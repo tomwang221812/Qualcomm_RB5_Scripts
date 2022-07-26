@@ -8,6 +8,7 @@ read PW
 echo "(II) User Home Dir: $HOME"
 echo "(II) Crrent Dir: $PWD"
 echo "(II) python3 path: $(which python3)"
+export AOSP_TOPDIR=${PWD}
 
 echo "(II) Download and install git-repo from Google"
 curl https://storage.googleapis.com/git-repo-downloads/repo > ${HOME}/.bin/repo
