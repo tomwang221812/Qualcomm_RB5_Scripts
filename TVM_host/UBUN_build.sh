@@ -28,6 +28,7 @@ export CONPASS = "123456"
 echo "Connect to container by SSH, user password is 123456"
 echo "${CONPASS}" | ssh -o StrictHostKeyChecking=no -p 36000 user@127.0.0.1
 
+echo "machine partner.thundercomm.com login ${TUMAIL} password ${TUPASS}" >> ~/.netrc
 echo $PW | sudo apt update
 
 
