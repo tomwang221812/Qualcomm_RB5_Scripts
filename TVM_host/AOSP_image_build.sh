@@ -11,6 +11,7 @@ echo "(II) python3 path: $(which python3)"
 export AOSP_TOPDIR=${PWD}
 
 echo "(II) Download and install git-repo from Google"
+echo $PW | sudo mkdir -p ${HOME}/.bin
 curl https://storage.googleapis.com/git-repo-downloads/repo > ${HOME}/.bin/repo
 echo $PW | sudo chmod a+rx ${HOME}/.bin/repo
 
