@@ -15,14 +15,14 @@ export LATEST_AOSP_URL=$(curl -w "%{url_effective}\n" -I -L -s -S http://snapsho
 export LATEST_AOSP_VERSION_WITH_TAIL=${LATEST_AOSP_URL##*aosp-master/}
 export LATEST_AOSP_VERSION=${LATEST_AOSP_VERSION_WITH_TAIL%/}
 
-export AOSP_DIR = ${PWD}/AOSP_${LATEST_AOSP_VERSION}
+export AOSP_DIR=${PWD}/AOSP_${LATEST_AOSP_VERSION}
 
 echo "(II) Create and enter Dir: $PWD"
 mkdir -p $AOSP_DIR
 cd $AOSP_DIR
 
 echo "[Download] (1/5) Download and Unzip latest AOSP bootloader ..."
-echo $PW | sudo wget http://snapshots.linaro.org/96boards/qrb5165-rb5/linaro/aosp-master/latest/rb5-bootloader-ufs-aosp-${LATEST_BOOTLOADER_VERSION}.zip
+echo $PW | sudo wget http://snapshots.linaro.org/96boards/qrb5165-rb5/linaro/rescue/latest/rb5-bootloader-ufs-aosp-${LATEST_BOOTLOADER_VERSION}.zip
 unzip rb5-bootloader-ufs-aosp-${LATEST_BOOTLOADER_VERSION}.zip
 echo "[Download] (2/5) Download userdata.img ..."
 echo $PW | sudo wget http://snapshots.linaro.org/96boards/qrb5165-rb5/linaro/aosp-master/latest/userdata.img
