@@ -58,3 +58,23 @@ fastboot reboot
 
 echo "Wait for device connect... (Timeout 120 sec)"
 timeout 120 adb wait-for-device
+sleep 30s
+
+echo "Restart ADB as root"
+adb devices
+adb root
+sleep 5s
+echo "Disable verity"
+adb disable-verity
+sleep 5s
+echo "Reboot device"
+adb reboot
+sleep 5s
+echo "Wait device"
+adb wait-for-device
+echo "Restart ADB as root"
+adb root
+sleep 5s
+echo "Remount device"
+adb remount
+
