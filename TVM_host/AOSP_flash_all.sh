@@ -3,6 +3,7 @@
 set -euxo pipefail
 
 echo "(II) User Home Dir: $HOME"
+echo "(II) Crrent Dir: $PWD"
 
 echo "(1/4) Start to flash ${PWD}/userdata.img"
 fastboot flash userdata userdata.img
