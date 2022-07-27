@@ -33,8 +33,7 @@ echo $PW | sudo wget http://snapshots.linaro.org/96boards/qrb5165-rb5/linaro/aos
 echo "[Download] (5/5) Download boot.img ..."
 echo $PW | sudo wget http://snapshots.linaro.org/96boards/qrb5165-rb5/linaro/aosp-master/latest/boot.img
 
-echo "Please get your device into fastboot!!!"
-adb reboot bootloader
+echo "Please get your device into fastboot!!! (You only have 120secs)"
 timeout 120 fastboot wait-for-device
 fastboot devices
 
