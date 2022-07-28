@@ -48,7 +48,7 @@ echo $PW | sudo make -C $HEXAGON_SDK_ROOT/ipc/fastrpc/qaic/ clean
 echo $PW | sudo make -C $HEXAGON_SDK_ROOT/ipc/fastrpc/qaic/
 
 # Setup Android NDK Environment
-export ANDROID_NDK_VERSION='24.0.8215888'
+export ANDROID_NDK_VERSION='25.0.8775105'
 export ANDROID_NDK="$HOME/Android/Sdk/ndk/$ANDROID_NDK_VERSION/build/cmake/android.toolchain.cmake"
 
 echo "(**) ANDROID NDK PATH = $ANDROID_NDK"
