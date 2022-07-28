@@ -46,9 +46,9 @@ mkdir -p ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/aarch64/AOSP_rb5
 mkdir -p ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5
 
 # Create Output Dirs (32bit)
-mkdir -p ${BUILD_RESULTS_PATH}/LINARO/fastrpc/armv8a/AOSP_rb5
-mkdir -p ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv8a/AOSP_rb5
-mkdir -p ${BUILD_RESULTS_PATH}/AOSP/fastrpc/armv8a/AOSP_rb5
+mkdir -p ${BUILD_RESULTS_PATH}/LINARO/fastrpc/armv7a/AOSP_rb5
+mkdir -p ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/AOSP_rb5
+mkdir -p ${BUILD_RESULTS_PATH}/AOSP/fastrpc/armv7a/AOSP_rb5
 
 # Pull from sources
 echo "(II) [1/4] Cloning FastRPC from Linaro"
@@ -121,5 +121,62 @@ make CC=$TOOLCHAIN/bin/$TARGET$API-clang CFLAGS+="-I${CUTILS_INCLUDE_PATH} -I${M
 cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/*.so ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5
 cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/cdsprpcd ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5
 
-# export TARGET=armv7a-linux-androideabi # 32Bit
+##################################
+cd ${MODIFIED_SRC_PATH}
+rm -rf ${MODIFIED_SRC_PATH}/LINARO/*
+rm -rf ${MODIFIED_SRC_PATH}/AOSP/*
+cp --verbose -r ${DOWNLOAD_SRC_PATH}/LINARO/fastrpc ${MODIFIED_SRC_PATH}/LINARO
+cp --verbose -r ${DOWNLOAD_SRC_PATH}/LINARO/libadsprpc ${MODIFIED_SRC_PATH}/LINARO
+cp --verbose -r ${DOWNLOAD_SRC_PATH}/AOSP/fastrpc ${MODIFIED_SRC_PATH}/AOSP/fastrpc
+##################################
+
+export TARGET=armv7a-linux-androideabi # 32Bit
+
+# Linaro FastRPC
+cd ${MODIFIED_SRC_PATH}/LINARO/fastrpc
+./autogen.sh
+
+sed -i 's/-I\$(top_srcdir)\/inc/-I\$(top_srcdir)\/inc -I\$(top_srcdir)\/..\/..\/core\/libcutils\/include/' ${MODIFIED_SRC_PATH}/LINARO/fastrpc/src/Makefile.am
+sed -i 's/adsprpcd_LDADD = -ldl/adsprpcd_LDADD = -ldl -llog/' ${MODIFIED_SRC_PATH}/LINARO/fastrpc/src/Makefile.am
+sed -i 's/cdsprpcd_LDADD =  -ldl/cdsprpcd_LDADD = -ldl -llog/' ${MODIFIED_SRC_PATH}/LINARO/fastrpc/src/Makefile.am
+sed -i 's/sdsprpcd_LDADD =  -ldl/sdsprpcd_LDADD = -ldl -llog/' ${MODIFIED_SRC_PATH}/LINARO/fastrpc/src/Makefile.am
+sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/LINARO/fastrpc/src/Makefile.am
+
+./configure --host=$TARGET CC=$TOOLCHAIN/bin/$TARGET$API-clang
+
+make -j$(nproc --all)
+
+cp --verbose -r ${MODIFIED_SRC_PATH}/LINARO/fastrpc/src/.deps ${BUILD_RESULTS_PATH}/LINARO/fastrpc/armv7a/deps
+cp --verbose -r ${MODIFIED_SRC_PATH}/LINARO/fastrpc/src/.libs ${BUILD_RESULTS_PATH}/LINARO/fastrpc/armv7a/libs
+cp --verbose -r ${BUILD_RESULTS_PATH}/LINARO/fastrpc/armv7a/libs/*.so ${BUILD_RESULTS_PATH}/LINARO/fastrpc/armv7a/AOSP_rb5
+
+# Linaro adsprpc
+cd ${MODIFIED_SRC_PATH}/LINARO/libadsprpc
+./autogen.sh
+
+sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/LINARO/libadsprpc/src/utils/Makefile.am
+sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/LINARO/libadsprpc/src/lib/Makefile.am
+
+./configure --host=$TARGET CC=$TOOLCHAIN/bin/$TARGET$API-clang
+
+make -j$(nproc --all)
+
+cp --verbose -r ${MODIFIED_SRC_PATH}/LINARO/libadsprpc/src/lib/.libs ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/libs
+cp --verbose -r ${MODIFIED_SRC_PATH}/LINARO/libadsprpc/src/utils/.libs ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/utils
+cp --verbose -r ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/libs/*.so ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/AOSP_rb5
+cp --verbose -r ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/utils/* ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/AOSP_rb5
+
+# AOSP FastRPC
+cd ${MODIFIED_SRC_PATH}/AOSP/fastrpc
+./autogen.sh
+
+sed -i 's/-lm/-lm -llog/' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
+sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
+
+#./configure --host=$TARGET CC=$TOOLCHAIN/bin/$TARGET$API-clang
+
+make CC=$TOOLCHAIN/bin/$TARGET$API-clang CFLAGS+="-I${CUTILS_INCLUDE_PATH} -I${MODIFIED_SRC_PATH}/AOSP/fastrpc/inc" -j$(nproc --all)
+
+cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/*.so ${BUILD_RESULTS_PATH}/AOSP/fastrpc/armv7a/AOSP_rb5
+cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/cdsprpcd ${BUILD_RESULTS_PATH}/AOSP/fastrpc/armv7a/AOSP_rb5
 
