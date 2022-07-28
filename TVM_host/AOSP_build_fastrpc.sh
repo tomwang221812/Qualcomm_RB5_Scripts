@@ -8,7 +8,6 @@ export LIBADSPRPC_LINARO_URL="https://git.linaro.org/landing-teams/working/qualc
 
 # Setup AOSP Source
 
-
 # Setup Android NDK Environment
 export ANDROID_NDK_VERSION='25.0.8775105'
 export ANDROID_NDK="$HOME/Android/Sdk/ndk/$ANDROID_NDK_VERSION"
