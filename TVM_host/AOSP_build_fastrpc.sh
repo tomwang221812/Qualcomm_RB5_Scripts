@@ -200,3 +200,21 @@ sleep 5s
 echo "Remount device"
 adb remount
 
+adb shell mkdir /vendor/dsp
+adb push ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5/* /system/vendor/lib64
+adb push ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5/* /vendor/lib64
+adb push ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5/* /system/vendor/lib
+adb push ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5/* /vendor/lib
+
+adb shell mkdir /vendor/dsp
+adb push ${BUILD_RESULTS_PATH}/LINARO/fastrpc/aarch64/AOSP_rb5/* /system/vendor/lib64
+adb push ${BUILD_RESULTS_PATH}/LINARO/fastrpc/aarch64/AOSP_rb5/* /vendor/lib64
+adb push ${BUILD_RESULTS_PATH}/LINARO/fastrpc/aarch64/AOSP_rb5/* /system/vendor/lib
+adb push ${BUILD_RESULTS_PATH}/LINARO/fastrpc/aarch64/AOSP_rb5/* /vendor/lib
+
+# adb shell mkdir /vendor/dsp
+# adb push ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/aarch64/AOSP_rb5/* /system/vendor/lib64
+# adb push ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/aarch64/AOSP_rb5/* /vendor/lib64
+# adb push ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/aarch64/AOSP_rb5/* /system/vendor/lib
+# adb push ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/aarch64/AOSP_rb5/* /vendor/lib
+
