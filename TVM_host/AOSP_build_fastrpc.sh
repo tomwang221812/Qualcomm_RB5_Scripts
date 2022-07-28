@@ -11,8 +11,8 @@ export LIBADSPRPC_LINARO_URL="https://git.linaro.org/landing-teams/working/qualc
 
 # Setup Android NDK Environment
 export ANDROID_NDK_VERSION='25.0.8775105'
-# export ANDROID_NDK="$HOME/Android/Sdk/ndk/$ANDROID_NDK_VERSION/build/cmake/android.toolchain.cmake"
-export NDK="/mnt/c/Users/tomwa/android-ndk-r25"
+export ANDROID_NDK="$HOME/Android/Sdk/ndk/$ANDROID_NDK_VERSION"
+# export NDK="/mnt/c/Users/tomwa/android-ndk-r25"
 # Set NDK Toolchain
 export TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
 # Set this to your minSdkVersion.
@@ -109,7 +109,6 @@ cp --verbose -r ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/aarch64/utils/* ${BUILD_
 
 # AOSP FastRPC
 cd ${MODIFIED_SRC_PATH}/AOSP/fastrpc
-./autogen.sh
 
 sed -i 's/-lm/-lm -llog/' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
 sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
@@ -168,7 +167,6 @@ cp --verbose -r ${BUILD_RESULTS_PATH}/LINARO/libadsprpc/armv7a/utils/* ${BUILD_R
 
 # AOSP FastRPC
 cd ${MODIFIED_SRC_PATH}/AOSP/fastrpc
-./autogen.sh
 
 sed -i 's/-lm/-lm -llog/' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
 sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
