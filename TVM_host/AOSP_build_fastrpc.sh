@@ -115,7 +115,7 @@ sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
 
 #./configure --host=$TARGET CC=$TOOLCHAIN/bin/$TARGET$API-clang
 
-make CC=$TOOLCHAIN/bin/$TARGET$API-clang CFLAGS+="-I${CUTILS_INCLUDE_PATH} -I${MODIFIED_SRC_PATH}/AOSP/fastrpc/inc -DANDROID" -j$(nproc --all)
+make CC=$TOOLCHAIN/bin/$TARGET$API-clang CFLAGS+="-I${CUTILS_INCLUDE_PATH} -I${MODIFIED_SRC_PATH}/AOSP/fastrpc/inc -DANDROID" -j$(nproc --all) all
 
 cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/*.so ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5
 cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/cdsprpcd ${BUILD_RESULTS_PATH}/AOSP/fastrpc/aarch64/AOSP_rb5
@@ -173,8 +173,30 @@ sed -i 's/-lpthread //' ${MODIFIED_SRC_PATH}/AOSP/fastrpc/Makefile
 
 #./configure --host=$TARGET CC=$TOOLCHAIN/bin/$TARGET$API-clang
 
-make CC=$TOOLCHAIN/bin/$TARGET$API-clang CFLAGS+="-I${CUTILS_INCLUDE_PATH} -I${MODIFIED_SRC_PATH}/AOSP/fastrpc/inc -DANDROID" -j$(nproc --all)
+make CC=$TOOLCHAIN/bin/$TARGET$API-clang CFLAGS+="-I${CUTILS_INCLUDE_PATH} -I${MODIFIED_SRC_PATH}/AOSP/fastrpc/inc -DANDROID" -j$(nproc --all) all
 
 cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/*.so ${BUILD_RESULTS_PATH}/AOSP/fastrpc/armv7a/AOSP_rb5
 cp --verbose -r ${MODIFIED_SRC_PATH}/AOSP/fastrpc/cdsprpcd ${BUILD_RESULTS_PATH}/AOSP/fastrpc/armv7a/AOSP_rb5
+
+echo "Wait for device connect... (Timeout 120 sec)"
+timeout 120 adb wait-for-device
+sleep 30s
+
+echo "Restart ADB as root"
+adb devices
+adb root
+sleep 5s
+echo "Disable verity"
+adb disable-verity
+sleep 5s
+echo "Reboot device"
+adb reboot
+sleep 5s
+echo "Wait device"
+adb wait-for-device
+echo "Restart ADB as root"
+adb root
+sleep 5s
+echo "Remount device"
+adb remount
 
