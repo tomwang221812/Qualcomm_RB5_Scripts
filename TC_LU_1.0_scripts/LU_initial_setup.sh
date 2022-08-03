@@ -36,6 +36,7 @@ adb push $SNPE_DIR/lib/dsp/libcalculator_skel.so /data/snpe_libs
 adb push $SNPE_DIR/lib/dsp/libsnpe_dsp_v66_domains_v2_skel.so /data/snpe_libs
 
 adb shell cp /data/snpe_libs/libcalculator.so /usr/lib
+adb shell cp /data/snpe_libs/libSNPE.so /usr/lib
 adb shell cp /data/snpe_libs/libhta.so /usr/lib
 adb shell cp /data/snpe_libs/libsnpe_dsp_domains_v2.so /usr/lib
 
