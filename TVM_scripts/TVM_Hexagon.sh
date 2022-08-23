@@ -26,8 +26,8 @@ echo "(**) LLVM C Compiler Path   = $LLVM_C_COMPILER"
 echo "(**) LLVM CXX Compiler Path = $LLVM_CPP_COMPILER"
 
 # Setup Qualcomm Hexagon Environment
-export HEXAGON_SDK_VERSION='4.5.0.3'
-export HEXAGON_TOOLCHAIN_VERSION='8.5.08'
+export HEXAGON_SDK_VERSION='4.5.0.3' #'5.0.0.0'
+export HEXAGON_TOOLCHAIN_VERSION='8.5.08' #'8.5.10'
 export HEXAGON_SDK="$HOME/Qualcomm/Hexagon_SDK/$HEXAGON_SDK_VERSION"
 export HEXAGON_SDK_ROOT=$HEXAGON_SDK
 export HEXAGON_TOOLCHAIN="$HEXAGON_SDK/tools/HEXAGON_Tools/$HEXAGON_TOOLCHAIN_VERSION/Tools"
@@ -70,6 +70,7 @@ set -x
 mkdir -p $build_output_dir
 
 # Build hexagon_api
+cd $TVM_HOME
 cd apps/hexagon_api
 # echo $PW | sudo rm -rf build
 mkdir build
@@ -83,7 +84,7 @@ cmake   -DANDROID_ABI=arm64-v8a \
         -DUSE_OUTPUT_BINARY_DIR=$build_output_hexagon_api \
         -DCMAKE_C_COMPILER="${LLVM_C_COMPILER}" \
         -DCMAKE_CXX_COMPILER="${LLVM_CPP_COMPILER}" \
-        -DUSE_HEXAGON_GTEST="${HEXAGON_SDK_ROOT}/utils/googletest/gtest" ..
+        -DUSE_HEXAGON_GTEST="${HEXAGON_SDK_ROOT}/utils/googletest/gtest" $TVM_HOME/apps/hexagon_api
 
 make -j$(nproc --all)
 
@@ -99,7 +100,7 @@ cd build_launcher_hexagon
 cmake -DCMAKE_C_COMPILER=$HEXAGON_TOOLCHAIN/bin/hexagon-clang \
       -DCMAKE_CXX_COMPILER=$HEXAGON_TOOLCHAIN/bin/hexagon-clang++ \
       -DUSE_HEXAGON_ARCH=$DSP_ARCH \
-      -DUSE_HEXAGON_SDK=$HEXAGON_SDK ../cmake/hexagon
+      -DUSE_HEXAGON_SDK=$HEXAGON_SDK $TVM_HOME/apps/hexagon_launcher/cmake/hexagon
 
 make -j$(nproc --all)
 
@@ -112,7 +113,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK \
       -DANDROID_ABI=arm64-v8a \
       -DANDROID_PLATFORM=android-28 \
       -DUSE_HEXAGON_SDK=$HEXAGON_SDK \
-      -DUSE_HEXAGON_ARCH=$DSP_ARCH ../cmake/android
+      -DUSE_HEXAGON_ARCH=$DSP_ARCH $TVM_HOME/apps/hexagon_launcher/cmake/android
 
 make -j$(nproc --all)
 
@@ -147,5 +148,5 @@ cd $TVM_HOME
 #./tests/scripts/task_python_unittest.sh
 
 # Run Hexagon Test
-./tests/scripts/task_python_hexagon.sh --device 421f999
+./tests/scripts/task_python_hexagon.sh --device 10.136.8.136:5555 #333e1468
 # export PATH=$PATH:$build_output_dir/sim_dev-prefix/src/sim_dev-build
