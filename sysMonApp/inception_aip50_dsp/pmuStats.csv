@@ -1,0 +1,11 @@
+PMU Index, Name, Value, Group, Description
+Measured time, Time in ms, 14985.623047,
+Pcycles, Processor cycles, 2991330560,
+0x3,COMMITTED_PKT_ANY,2539936512, CU, Thread committed a pkt. Packets executed
+0x3f,AXI_LINE128_READ_REQUEST,76354824, L2, 128-byte line read requests issued by primary AXI master
+0x46,AXI_LINE128_WRITE_REQUEST,16578144, L2, 128-byte line write requests issued by primary AXI master, all bytes valid
+0x7f,L2FETCH_MISS,10476283, L2, L2fetch miss from a programed inquiry. Of the events qualified by 0x7E, the ones that resulted in  L2 miss. i.e. the line was not previously allocated in the L2 cache and will be fetched from backing memory.
+0xe8,IU_NO_PKT_PVIEW_CYCLES,305596096, CU, Cycles pmuDefines[200].cluster could not commit due to IQ being empty.
+0x106,HVX_LD_L2_OUTSTANDING,253151184, VXU, Increments by 2 per cycle in 128-byte mode. Stall cycles due to load pending
+0x113,HVX_PKT,2142719104, VXU, Increments by 2 per packet in 128-byte mode. Packets with HVX instructions
+0x11d,HVX_L2_LOAD_MISS,1778940, VXU, L2 cacheable miss from HVX
